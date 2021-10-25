@@ -1,13 +1,28 @@
-Promise 是一个构造函数，
-- 链式调用（解决回调地狱）
+Promise 是一个构造函数
+- 链式调用（解决回调地狱)
 - 状态锁定
-
-
-
 ```
 var p = new Promise();
 p本身具有： all、race、allSettled、any等方法
 原型上具有： catch、then、finally等方法
+```
+
+### 链式调用：
+- getUserId方法返回一个promise，可以通过它的then方法**注册**(注意注册这个词)在promise异步操作成功时执行的回调.
+```
+//例1
+function getUserId() {
+    return new Promise(function(resolve) {
+        //异步请求
+        http.get(url, function(results) {
+            resolve(results.id)
+        })
+    })
+}
+
+getUserId().then(function(id) {
+    //一些处理
+})
 ```
 
 ## 基本用法：
@@ -56,5 +71,6 @@ getNum(3)
     // 会捕获到somedata的错误，提示未定义，代码会继续执行，不会报错
 })
     
-
 ```
+
+Promise
