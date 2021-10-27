@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>await</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <h1>
+        await
+    </h1>
+    <script>
+        function demo() {
+            return new Promise((resolve, reject) => {
+                // setTimeout(() => {
+                //     console.log('demo')
+                //     resolve('大于0.5')
+                // }, 3000)
+                console.log('demo')
+                resolve('demo')
+            })
+        }
+
+        function demo1() {
+            return new Promise((resolve, reject) => {
+                // setTimeout(() => {
+                //     console.log('demo1')
+                //     resolve('大于0.5')
+                // }, 6000)
+
+                console.log('demo1')
+                resolve('demo1')
+            })
+        }
+
+        async function demo2() {
+            await demo()
+            await demo1()
+            console.log('result')
+            console.log('22')
+        }
+        demo2()
+
+        console.log('================分界线=================== ');
+
+
+        // demo()
+        // .then((data1) => {
+        //     console.log('================data1=================== ',data1);
+        //     // 必须return
+        //     return demo1()
+        // })
+        // .then((data2) => {
+        //     console.log('================data2=================== ',data2);
+        // })
+        // .then((data3) => {
+        //     console.log('================data3=================== ',data3);
+        // })
+
+         // 会直接运行，所以一般要用函数包裹promise，当放在函数里面的时候只有调用的时候才会被执行
+         let p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('================直接声明构造函数=================== ');
+                resolve('11')
+            }, 3000)
+        })
+      
+    </script>
+</body>
+
+</html>

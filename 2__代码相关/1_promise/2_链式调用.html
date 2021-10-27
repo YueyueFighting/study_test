@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>await</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <h1>
+        await
+    </h1>
+    <script>
+        let test = new Promise((resolve, reject) => {
+            let random = Math.random()
+            if (random > 0.5) {
+                resolve('大于0.5')
+            } else {
+                reject('小于等于0.5')
+            }
+        })
+
+        let p = test.then((result) => {
+            console.log('11', result)
+            return result
+        }).catch((result) => {
+            console.log('22', result)
+            return result
+        }).then((result) => {
+            console.log('33', result)
+            return result
+        }).then((result) => {
+            console.log('last', result)
+        })
+
+        console.log(p)
+       
+    </script>
+</body>
+
+</html>
