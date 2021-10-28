@@ -44,20 +44,6 @@
 
         console.log('================分界线=================== ');
 
-
-        // demo()
-        // .then((data1) => {
-        //     console.log('================data1=================== ',data1);
-        //     // 必须return
-        //     return demo1()
-        // })
-        // .then((data2) => {
-        //     console.log('================data2=================== ',data2);
-        // })
-        // .then((data3) => {
-        //     console.log('================data3=================== ',data3);
-        // })
-
          // 会直接运行，所以一般要用函数包裹promise，当放在函数里面的时候只有调用的时候才会被执行
          let p2 = new Promise((resolve, reject) => {
             setTimeout(() => {
