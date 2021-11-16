@@ -2,14 +2,10 @@
 <html>
 
 <head>
-    <title>await</title>
     <meta charset="utf-8">
 </head>
 
 <body>
-    <h1>
-        await
-    </h1>
     <script>
         let p1 = new Promise((resolve, reject) => {
             resolve('p1')
@@ -19,6 +15,9 @@
         })
         let p3 = new Promise((resolve, reject) => {
             resolve('p3')
+        })
+        let p4 = new Promise((resolve, reject) => {
+            reject('p4')
         })
 
         p1
@@ -32,11 +31,14 @@
             })
             .then((result) => {
                 console.log('第3个then----->', result)
+                return p4;
             })
             .catch((err1) => {
+                // 捕获到p4的错误
                 console.log('第1个catch----捕获到错误------》', err1)
-            })
+            }) 
             .catch((err2) => {
+                // 不执行
                 console.log('第2个catch----捕获到错误------》', err2)
             })
     </script>

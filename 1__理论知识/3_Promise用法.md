@@ -211,3 +211,57 @@ Promise.all() 和 romise.race() 都具有 短路特性
 
 
 # 3.并发性和 Promise.all()
+
+- 顺序执行
+
+p2要等到p1执行完才会执行
+```
+
+p1()
+.then(data1 => {
+  console.log('p1的执行结果', data1);
+  return p2();
+})
+.then(data2 => {
+  console.log('p3的执行结果', data2);
+  return p3();
+})
+
+```
+
+- 并发执行
+
+确定并发异步代码的技巧:关注异步操作何时启动，而不是如何处理它们的Promises。
+
+```
+Promise.all([p1(), p2()]).then(data => {
+
+})
+```
+- 1
+```
+function concurrentAll() {
+  return Promise.all([asyncFunc1(), asyncFunc2()]);
+}
+
+function concurrentThen() {
+  const p1 = asyncFunc1();
+  const p2 = asyncFunc2();
+  return p1.then(r1 => p2.then(r2 => [r1, r2]));
+}
+```
+
+- 2
+```
+function sequentialThen() {
+  return asyncFunc1()
+    .then(r1 => asyncFunc2()
+    .then(r2 => [r1, r2])); // r2是asyncFunc2的结果
+}
+
+function sequentialAll() {
+  const p1 = asyncFunc1();
+  const p2 = p1.then(() => asyncFunc2());
+  return Promise.all([p1, p2]);
+}
+```

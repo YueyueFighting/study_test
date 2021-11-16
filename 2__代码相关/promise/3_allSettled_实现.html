@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h3>
+        应该首先判断传入的数组中的每一项是不是Promise
+    </h3>
+    <h3>
+        Promise.allSettled()方法返回一个promise，
+    </h3>
+    <h3>
+        该promise在所有给定的promise已被解析或被拒绝后解析，并且每个对象都描述每个promise的结果。
+    </h3>
+    <script>
+
+        let p1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p1----500')
+                resolve('success11')
+            }, 500)
+        })
+
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p2---1000')
+                reject('reject22')
+            }, 1000)
+        })
+
+        let p3 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p3---1500')
+                reject('reject333')
+            }, 1500)
+        })
+
+        let p4 = '哈哈哈哈'
+
+        function isPromise(obj) {
+            return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+        }
+
+        // iterable
+        function allSettled(iterable) {
+
+            return new Promise((resolve, reject) => {
+                let resultArray = [];
+                let counter = 0;
+                for (let index = 0; index < iterable.length; index++) {
+                    const element = iterable[index];
+
+                    // 判断是不是Promise
+                    if (!isPromise(element)) {
+                        resultArray[index] = element
+                        if (++counter == iterable.length) {
+                            resolve(resultArray)
+                        }
+                        continue;
+                    }
+
+                    element.then(result => {
+                        resultArray[index] = {
+                            status: 'fulfilled',
+                            value: result
+                        }
+                        if (++counter == iterable.length) {
+                            resolve(resultArray)
+                        }
+                    }, err => {
+                        resultArray[index] = {
+                            status: 'rejected',
+                            reason: err
+                        }
+                        if (++counter == iterable.length) {
+                            resolve(resultArray)
+                        }
+                    })
+                }
+            })
+        }
+
+        allSettled([p1, p2, p3, p4]).then(result => {
+            // ================result===================  (5) [{…}, {…}, {…}, {…}, '哈哈哈哈']
+            console.log('================result=================== ', result);
+        })
+
+    </script>
+
+</body>
+
+</html>

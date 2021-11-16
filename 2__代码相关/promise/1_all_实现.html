@@ -63,6 +63,9 @@
                 let counter = 0; // 计数器，用于判断异步完成
 
                 function processData(key, value) {
+                    // 注意！！！！！！！！！！！！！！
+                    // 不能直接push是为了保证与传进来的顺序保持一致，异步执行，
+                    // 第二个promise可能比第一个promise返回结果快
                     result[key] = value;
                     // 每成功一次计数器就会加1，直到所有都成功的时候会与values长度一致，则认定为都成功了，所以能避免异步问题
                     if (++counter === values.length) {
