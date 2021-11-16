@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let p1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p1----1000')
+                resolve('success11')
+            }, 1000)
+        })
+
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p2---500')
+                resolve('success22')
+            }, 500)
+        })
+
+        let p3 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p2---2500')
+                resolve('success33')
+            }, 2500)
+        })
+
+        let p4 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p4---1500')
+                resolve('success44')
+            }, 1500)
+        })
+
+        Promise.all([p1, p2, p3, p4]).then((result) => {
+            console.log('全部')
+            console.log('result', result)
+        }).catch((error) => {
+            console.log('error', error)  // 打开的是 'failed'
+        })
+
+        // ————————————控制台打印顺序——————————————
+        // p2---500
+        // promiseAll_01.html:15 p1----1000
+        // promiseAll_01.html:36 p4---1500
+        // promiseAll_01.html:29 p2---2500
+        // promiseAll_01.html:42 全部
+        // promiseAll_01.html:43 result (4) ['success11', 'success22', 'success33', 'success44']
+    </script>
+
+</body>
+
+</html>

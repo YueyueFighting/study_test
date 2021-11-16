@@ -1,4 +1,4 @@
-Promise 是一个构造函数
+# Promise 是一个构造函数
 - 链式调用（解决回调地狱)
 - 状态锁定、
 - 三种状态：pending/reslove/reject 
@@ -113,5 +113,101 @@ promiseClick()
 });
 
 ```
+#
+#
+#
+#
+# Promise状态
+
+- pending: 进行中
+- fulfilled: 操作成功完成
+- rejected: 操作失败
+- settled: 要么完成要么失败，一旦状态达成，就不再改变
 
 
+## JS 的 Promises 来说
+
+- **基元函数包括:**
+  - Promise.resolve()
+  - Promise.reject()
+
+- **组合函数：**
+  - Promise.all(), 
+  - Promise.race(),
+  - Promise.allSettled()
+
+
+## 1. Promise.all()
+
+```
+<!-- 完成状态结果是一个数组 -->
+<!-- 有一个失败（rejected），此实例回调失败（reject），失败原因的是第一个失败 promise 的结果 -->
+const promises = [
+  Promise.resolve('a'),
+  Promise.resolve('b'),
+  Promise.resolve('c'),
+];
+
+Promise.all(promises)
+  .then((arr) => assert.deepEqual(
+    arr, ['a', 'b', 'c']
+  ));
+
+
+```
+
+
+## 2. Promise.race()
+
+**不管是成功（完成）还是失败，最终都会返回先有执行结果的那个**
+## 适用场景：
+- fetch api没提供timeout, 可以用race模拟一个请求超时
+
+```
+ function getData1() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log('第一条数据加载成功')
+                    reject('data1')
+                }, 500)
+            })
+        }
+
+        const demo1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('demo1成功')
+                resolve('demo1')
+            }, 400)
+        })
+
+        // 注意，Promise 默认会执行，所以如果是直接定义的Promise函数不用调用，
+        // 如果用函数包裹的话，需要调用函数
+        Promise.race([getData1(), demo1,])
+            .then(result => {
+                console.log('================result=================== ', result);
+            })
+            .catch((fail) => {
+                console.log('================fail=================== ', fail);
+            })
+       
+
+```
+
+
+## 3. Promise.allSettled()
+Promise.allSettled()方法返回一个promise，该promise在所有给定的promise已被解析或被拒绝后解析，并且每个对象都描述每个promise的结果。
+
+**当Promise全部处理完成后我们可以拿到每个Promise的状态, 而不管其是否处理成功.**
+
+```
+<!-- 该promise在所有给定的promise已被解析或被拒绝后解析，并且每个对象都描述每个promise的结果。 -->
+Promise.allSettled([])
+```
+
+# 2.短路特性
+Promise.all() 和 romise.race() 都具有 短路特性
+- Promise.all()： 如果参数中 promise 有一个失败（rejected），此实例回调失败（reject）
+- Promise.race()：如果参数中某个promise解决或拒绝，返回的 promise就会解决或拒绝。
+
+
+# 3.并发性和 Promise.all()

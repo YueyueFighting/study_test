@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promisesArray</title>
+</head>
+
+<body>
+    <script>
+        const promisesArray = [
+            new Promise((resolve, reject) =>
+                setTimeout(() => resolve('result'), 2500)), // (A)
+
+            new Promise((resolve, reject) =>
+                setTimeout(() => reject('error-----B'), 500)), // (B)
+
+            new Promise((resolve, reject) =>
+                setTimeout(() => resolve('result------C'), 1000)), // (C)
+        ]
+
+        function race(iterable) {
+            return new Promise((resolve, reject) => {
+                for (const promise of iterable) {
+                    console.log('================promise=================== ', promise);
+                    promise.then(
+                        (value) => {
+                            if (settlementOccurred) return;
+                            settlementOccurred = true;
+                            resolve(value);
+                        },
+                        (err) => {
+                            if (settlementOccurred) return;
+                            settlementOccurred = true;
+                            reject(err);
+                        });
+                }
+                let settlementOccurred = false;
+            });
+        }
+
+        let result = race(promisesArray)
+            .then(success => {
+                console.log('================success=================== ', success);
+
+            })
+            .catch(fail => {
+                console.log('================fail=================== ', fail);
+
+            })
+    </script>
+
+</body>
+
+</html>

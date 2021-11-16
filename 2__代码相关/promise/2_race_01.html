@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 只要有一个Promise对象状态变为解决或拒绝，返回的 promise就会解决或拒绝
+        const promises = [
+            new Promise((resolve, reject) =>
+                setTimeout(() => resolve('result'), 2500)), // (A)
+
+            new Promise((resolve, reject) =>
+                setTimeout(() => reject('ERROR-----B'), 2000)), // (B)
+
+            new Promise((resolve, reject) =>
+                setTimeout(() => reject('ERROR------C'), 1000)), // (C)
+        ];
+
+        Promise.race(promises)
+            .then((result) => {
+                console.log('================result=================== ',result);
+            })
+            .catch((err) => {
+                console.log('================err=================== ',err);
+            })
+
+    </script>
+
+</body>
+
+</html>

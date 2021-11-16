@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // Promise.all可以将多个Promise实例包装成一个新的Promise实例。
+        // 同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，
+        // 而失败的时候则返回最先被reject失败状态的值。
+
+        let p1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p1----1000')
+                resolve('success11')
+            }, 1000)
+        })
+
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p2---500')
+                reject('reject22')
+            }, 500)
+        })
+
+        let p3 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p2---2500')
+                resolve('success33')
+            }, 2500)
+        })
+
+        let p4 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('p4---1500')
+                reject('reject44')
+            }, 1500)
+        })
+
+        Promise.all([p1, p2, p3, p4]).then((result) => {
+            console.log('全部')
+            console.log('result', result)
+        }).catch((error) => {
+            console.log('error', error)  // 打开的是 'failed'
+        })
+
+        // ————————————控制台打印顺序——————————————
+        // p2---500
+        // promiseAll.html:45 error reject22
+        // promiseAll.html:15 p1----1000
+        // promiseAll.html:36 p4---1500
+        // promiseAll.html:29 p2---2500
+    </script>
+
+</body>
+
+</html>
