@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+        let p1 = new Promise((resolve, reject) => {
+            resolve('我是p1--成功')
+        })
+        let p2 = new Promise((resolve, reject) => {
+            resolve('我是p2--成功')
+        })
+        let p3 = new Promise((resolve, reject) => {
+            reject('我是p3--失败')
+        })
+        let p4 = new Promise((resolve, reject) => {
+            reject('我是p4--失败')
+        })
+        let p5 = new Promise((resolve, reject) => {
+            resolve('我是p5--成功')
+        })
+
+        p1
+            .then((result1) => {
+                // 我是p1--成功
+                console.log('result1---->', result1)
+                return p2;
+            })
+            .then((result2) => {
+                // 我是p2--成功
+                console.log('result2---->', result2)
+                return p3
+            })
+            // 不走这个
+            .then((result3) => {
+                console.log('result3---->', result3)
+            })
+            .catch((err1) => {
+                // 捕获到p3
+                // err1----> 我是p3--失败
+                console.log('err1---->', err1)
+                return p4
+            })
+            .catch((err2) => {
+                // p4的异常捕获到
+                // err2----> 我是p4--失败
+                console.log('err2---->', err2)
+                return p5
+            })
+            .then((result5) => {
+                // result5----> 我是p5--成功
+                console.log('result5---->', result5)
+            })
+
+
+            // ——————————————————————————————————————————控制台打印结果
+            //             result1----> 我是p1--成功
+            // 4_链式调用3.html:34 result2----> 我是p2--成功
+            // 4_链式调用3.html:43 err1----> 我是p3--失败
+            // 4_链式调用3.html:48 err2----> 我是p4--失败
+            // 4_链式调用3.html:52 result5----> 我是p5--成功
+                </script>
+</body>
+
+</html>

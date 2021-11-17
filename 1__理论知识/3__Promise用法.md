@@ -66,32 +66,43 @@ promiseDemo
 ```
 
 # （二）链式调用
-promise的 then 方法之后会继续返回一个promise对象
+
+### 可以链式调用的原因：
+- promise的 then 方法之后会继续返回一个promise对象
+
+
 
 ```
-let test = new Promise((resolve, reject) => {
-    let random = Math.random()
-    if (random > 0.5) {
-        resolve('大于0.5')
-    } else {
-        reject('小于等于0.5')
-    }
+let p1 = new Promise((resolve, reject) => {
+  resolve('我是p1--成功')
+})
+let p2 = new Promise((resolve, reject) => {
+  resolve('我是p2--成功')
+})
+let p3 = new Promise((resolve, reject) => {
+  reject('我是p3--失败')
 })
 
-let p = test.then((result) => {
+p1
+.then((result1) => {
+    // 我是p1--成功
+    console.log(result1)
+    return p2;
+})
+.then((result2) => {
+    // 我是p2--成功
     console.log(result)
-    return result
-}).catch((result) => {
+    return p3
+})
+.then((result3) => {
+    // 不走这个
     console.log(result)
-    return result
-}).then((result) => {
-    console.log(result)
-    return result
-}).then((result) => {
-    console.log('last', result)
+})
+.catch((err) => {
+    // 捕获到p3
+    console.log('last', err)
 })
 
-console.log(p)
 ```
 
 在then方法中继续写Promise对象并返回，然后继续调用then来进行回调操作
@@ -113,6 +124,10 @@ promiseClick()
 });
 
 ```
+<!-- ![Image text](https://raw.githubusercontent.com/hongmaju/light7Local/master/img/productShow/20170518152848.png) -->
+
+
+
 #
 #
 #

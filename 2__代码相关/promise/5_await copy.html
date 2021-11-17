@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>await</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+        Promise.resolve('foo')
+            .then(() => {
+
+            }).then(function (result2) {
+                console.log(result2); // undefined
+            });
+
+
+        Promise.resolve('foo')
+            .then()
+            .then(function (result2) {
+                console.log(result2); // foo
+            });
+
+
+        Promise.resolve('foo')
+            .then((result1) => {
+                Promise.resolve('bar')
+            })
+            .then(function (result2) {
+                console.log(result2); // undefined
+            });
+
+
+        Promise.resolve('foo')
+            .then(null)
+            .then(function (result) {
+                console.log(result); // foo
+            });
+
+        Promise.resolve('foo')
+            .then(function () {
+                return Promise.resolve('bar');
+            }).then(function (result) {
+                console.log(result); // bar
+            });
+    </script>
+</body>
+
+</html>
