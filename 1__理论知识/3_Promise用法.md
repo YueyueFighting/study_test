@@ -195,24 +195,38 @@ Promise.all(promises)
 
 
 ## 3. Promise.allSettled()
-Promise.allSettled()方法返回一个promise，该promise在所有给定的promise已被解析或被拒绝后解析，并且每个对象都描述每个promise的结果。
+
+- Promise.allSettled()方法返回一个promise，该promise在所有给定的promise已被解析或被拒绝后解析，并且每个对象都描述每个promise的结果。
 
 **当Promise全部处理完成后我们可以拿到每个Promise的状态, 而不管其是否处理成功.**
 
+该promise在所有给定的promise已被解析或被拒绝后解析，每个对象都描述每个promise的结果
+
 ```
-<!-- 该promise在所有给定的promise已被解析或被拒绝后解析，并且每个对象都描述每个promise的结果。 -->
-Promise.allSettled([])
+Promise.allSettled([]).then(result => {
+  <!-- result -->
+  [
+    // 完成结果
+    {status: 'fulfilled', value: 'success11'},
+    // 失败结果
+    {status: 'rejected', reason: 'reject22'} 
+  ]
+})
+
 ```
 
 # 2.短路特性
+
 Promise.all() 和 romise.race() 都具有 短路特性
+
 - Promise.all()： 如果参数中 promise 有一个失败（rejected），此实例回调失败（reject）
+
 - Promise.race()：如果参数中某个promise解决或拒绝，返回的 promise就会解决或拒绝。
 
 
 # 3.并发性和 Promise.all()
 
-- 顺序执行
+## （1）顺序执行
 
 p2要等到p1执行完才会执行
 ```
@@ -229,7 +243,7 @@ p1()
 
 ```
 
-- 并发执行
+## （2） 并发执行
 
 **确定并发异步代码的技巧:**
 - 关注异步操作何时启动，而不是如何处理它们的Promises。
@@ -239,7 +253,7 @@ Promise.all([p1(), p2()]).then(data => {
 
 })
 ```
-- 1
+### ①
 ```
 function concurrentAll() {
   return Promise.all([asyncFunc1(), asyncFunc2()]);
@@ -252,7 +266,7 @@ function concurrentThen() {
 }
 ```
 
-- 2
+### ②
 ```
 function sequentialThen() {
   return asyncFunc1()
