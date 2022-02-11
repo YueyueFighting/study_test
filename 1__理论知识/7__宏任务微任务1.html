@@ -27,18 +27,6 @@
 
     console.log('script end');
 
-
-    // process.nextTick()可用于控制代码执行顺序
-    process.nextTick(() => console.log(1))
-    promise.resolve().then(() => console.log(2))
-    process.nextTick(() => console.log(3))
-    promise.resolve().then(() => console.log(4))
-//输出为
-//1
-//3
-//2
-//4
-//上面的代码中，process.nextTick的回调会早执行于Promise
   </script>
 
 </body>
