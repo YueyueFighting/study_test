@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        async function a() {
+            console.log('a--start')
+
+            await new Promise((resolve, reject) => {
+                resolve()
+            }).then(() => {
+                setTimeout(() => console.log('setTimeout1'), 0)
+            })
+
+            // await 表达式：当表达式不是Promise的时候，返回值是Promise的回调函数resolve的参数（参考setTimeout3）
+            await setTimeout(() => console.log('setTimeout2'), 0)
+            await Promise.resolve(setTimeout(() => console.log('setTimeout3'), 0));
+
+            await b()
+
+            console.log('a', 1)
+            console.log('a', 2)
+        }
+
+        async function b() {
+            console.log('b--start')
+            await setTimeout(() => console.log('setTimeout4'), 0)
+            await console.log(123)
+            console.log('b', 1);
+            console.log('b', 2)
+        }
+
+        a()
+
+        //                a--start
+        // 0_test.html:32 b--start
+        // 0_test.html:34 123
+        // 0_test.html:35 b 1
+        // 0_test.html:36 b 2
+        // 0_test.html:27 a 1
+        // 0_test.html:28 a 2
+        // 0_test.html:19 setTimeout1
+        // 0_test.html:21 setTimeout2
+        // 0_test.html:23 setTimeout3
+        // 0_test.html:33 setTimeout4
+    </script>
+
+</body>
+
+</html>
