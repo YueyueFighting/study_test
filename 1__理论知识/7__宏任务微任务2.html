@@ -12,18 +12,22 @@
   <h1>
     宏任务，微任务
   </h1>
+  <h2 style="color: red;">
+    setTimeout内部回调函数执行顺序在浏览器环境与node环境是有差异的。
+  </h2>
   <h2>
 
     - 1）、存在微任务的话，那么就执行所有的微任务<br />
     - 2）、微任务都执行完之后，执行下一个宏任务<br />
     - 3）、1， 2以此循环着<br />
+    node环境执行顺序：1 7 6 8 2 4 9 11 3 10 5 12
   </h2>
 
   <img style="display: block;" src="../images//宏任务微任务1.png" />
   <img style="display: block;" src="../images//宏任务微任务2.png" />
   <script>
     // 代码执行结束：
-    // 最终打印顺序为：1 7 6 8 2 4 3 5 9 11 10 12
+    // 最终打印顺序为：1 7 6 8 2 4 9 11 3 10 5 12
     console.log('1');
 
     setTimeout(function () {

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h3>
+        执行结果：<br />
+        7__宏任务微任务3_async_await_浏览器.html:38 script start<br />
+        7__宏任务微任务3_async_await_浏览器.html:30 async1 start<br />
+        7__宏任务微任务3_async_await_浏览器.html:36 async2<br />
+        7__宏任务微任务3_async_await_浏览器.html:48 promise1<br />
+        7__宏任务微任务3_async_await_浏览器.html:54 script end<br />
+        7__宏任务微任务3_async_await_浏览器.html:32 async1 end<br />
+        7__宏任务微任务3_async_await_浏览器.html:51 promise2<br />
+        7__宏任务微任务3_async_await_浏览器.html:42 setTimeout<br />
+    </h3>
+    <script>
+        console.log(
+            "================================================================="
+        );
+
+        async function async1() {
+            console.log("async1 start");
+            await async2();
+            console.log("async1 end"); 
+        }
+
+        async function async2() {
+            console.log("async2");
+        }
+
+        console.log("script start");
+
+        setTimeout(function () {
+            console.log("setTimeout");
+        }, 0);
+
+        async1();
+
+        new Promise(function (resolve) {
+            console.log("promise1");
+            resolve();
+        }).then(function () {
+            console.log("promise2");
+        });
+
+        console.log("script end");
+
+
+
+
+
+
+
+        // async function async5() {
+        //     console.log("async5--1");
+        //     return 'async5--2'
+        // }
+
+        // async function async6() {
+        //     console.log('async6 start')
+        //     let a = await async5();
+        //     console.log('a=================>', a);
+        //     console.log("async6 end");
+        // }
+        // console.log('同步代码--start')
+        // async6();
+        // console.log('同步代码--end')
+
+        // 执行结果：
+        // 同步代码--start
+        // async6 start
+        // async5--1
+        // 同步代码--end
+        // a=================> async5--2
+        // async6 end
+
+    </script>
+
+</body>
+
+</html>

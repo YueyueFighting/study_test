@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>
+        测试setTimeout与Promose的执行顺序
+
+        浏览器运行结果：<br>
+        测试结果为：   1->5->6->2->3->4->7->8->9
+    </h1>
+    <h1 style="color: red;">
+        结论分析:
+        <br>
+        setTimeout内部回调函数执行顺序在浏览器环境与node环境是有差异的。
+    </h1>
+    <h2>
+        - 1.浏览器环境是执行完seTimeout内部回调函数内容(不适用于setTimeout里还有setTimeout)
+        所以第一个setTimeout中的“2 3 4”先与第二个setTimeout中的“7 8 9”打印
+        <br>
+        - 2.node环境中setTimeout内部如果还有异步操作，直接跳到下一个setTimeout回调代码中。
+        至于两个setTimeout中promose.then内部的执行顺去取决于微任务的入队顺序
+    </h2>
+
+    <script>
+        console.log('1');//
+        setTimeout(function () {
+            console.log('2');//
+            new Promise(function (resolve) {
+                console.log('3');//
+                resolve();
+            }).then(function () {
+                console.log('4');//
+            })
+        }, 0);
+        new Promise(function (resolve) {
+            console.log('5');//
+            resolve();
+        }).then(function () {
+            console.log('6');//
+        });
+        setTimeout(function () {
+            console.log('7');//
+            new Promise(function (resolve) {
+                console.log('8');//
+                resolve();
+            }).then(function () {
+                console.log('9');//
+            });
+        })
+    </script>
+</body>
+
+</html>
