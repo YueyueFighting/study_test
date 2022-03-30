@@ -1,0 +1,1 @@
+通过Object.defineProperty() 数据劫持结合 发布订阅者模式实现，
